@@ -1,1 +1,2 @@
-# DSA
+# KHI THẦY CHẤM BÀI CÓ THỂ DOW VỀ GIÚP EM 
+# CODE EM CÓ ĐẨY LÊN NHƯNG MÀ GITHUB KHÔNG HIỆN 
