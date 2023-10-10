@@ -1,0 +1,14 @@
+public static List<Integer> countingSort(List<Integer> arr) {
+        List<Integer> x = new ArrayList<>(Collections.nCopies(100, 0));
+        Collections.sort(arr);
+        int index = 0; 
+        for (int i = 0; i < 100; i++) {
+            int count = 0; 
+            while (index < arr.size() && arr.get(index) == i) {
+                count++;
+                index++;
+            } 
+            x.set(i, count);
+        }
+        return x; 
+    }

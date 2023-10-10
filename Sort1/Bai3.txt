@@ -1,0 +1,23 @@
+public static void insertionSort1(int n, List<Integer> arr) {
+    for(int index = n - 1; index >= 0; index--) {
+        int value = arr.get(index);
+        int position = index - 1;
+        
+        while(position >= 0 
+              && arr.get(index) <= arr.get(position)) {
+            arr.set(position + 1, arr.get(position));
+            position--;
+            print(arr);
+            System.out.println();
+        }
+        arr.set(position + 1, value);
+    }
+    print(arr);
+}
+
+    public static void print(List<Integer> arr) {
+        for (Integer x : arr){
+            System.out.print(x + " ");
+        }
+    }
+}

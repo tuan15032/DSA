@@ -1,0 +1,14 @@
+void reversePrint(SinglyLinkedListNode* head) {
+    stack<int> values;
+
+   
+    while (head) {
+        values.push(head->data);
+        head = head->next;
+    }
+
+    while (!values.empty()) {
+        cout << values.top() << endl;
+        values.pop();
+    }
+} 
