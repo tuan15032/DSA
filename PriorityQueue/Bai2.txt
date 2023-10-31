@@ -1,0 +1,23 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.next();
+        int x = s.length()-1;
+        int y = 0 ; 
+        while(y<x){
+            if(s.charAt(x)!=s.charAt(y)){
+                System.out.println("No");
+                return;
+            }
+            else{
+                x--;
+                y++;
+            }
+        }
+        System.out.println("Yes");
+    }
+}

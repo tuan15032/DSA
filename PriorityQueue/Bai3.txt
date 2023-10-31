@@ -1,0 +1,11 @@
+public static int cookies(int k, List<Integer> cookies) {
+        int result = 0;
+        Queue<Integer> cookiesSorted = new PriorityQueue<>(cookies);
+        
+        while(cookiesSorted.peek()<k && cookiesSorted.size()>=2){
+            cookiesSorted.add(cookiesSorted.poll()+2*cookiesSorted.poll());
+            result++;
+        }
+        if(cookiesSorted.peek()<k) return -1;
+        return result;
+    }

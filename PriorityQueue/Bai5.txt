@@ -1,0 +1,27 @@
+public static List<Double> runningMedian(List<Integer> a) {
+        List<Double> median = new ArrayList<>();
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        for (Integer n : a) {
+            if (maxHeap.isEmpty() || n < maxHeap.peek()) {
+                maxHeap.add(n);
+            } else {
+                minHeap.add(n);
+            }
+
+            if (maxHeap.size() > minHeap.size() + 1) {
+                minHeap.add(maxHeap.poll());
+            } else if (minHeap.size() > maxHeap.size()) {
+                maxHeap.add(minHeap.poll());
+            }
+
+            if (maxHeap.size() == minHeap.size()) {
+                median.add((maxHeap.peek() + minHeap.peek()) / 2.0);
+            } else {
+                median.add((double) maxHeap.peek());
+            }
+        }
+
+        return median;
+    }
