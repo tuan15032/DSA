@@ -1,0 +1,21 @@
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Pairs {
+    public static int pairs(int k, List<Integer> arr) {
+        int n=arr.size();
+        int cnt=0;
+        Set<Integer> se=new HashSet<Integer>();
+        for(int i=0;i<n;i++){
+            se.add(arr.get(i));
+            if(se.contains(arr.get(i)-k)) {
+                cnt++;
+            }
+            if(se.contains(arr.get(i)+k)) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+}

@@ -1,0 +1,36 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class MissingNumbers1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0;i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+        int m = sc.nextInt();
+        int[] b = new int[m];
+        for (int i = 0;i < m; i++) {
+            b[i] = sc.nextInt();
+        }
+        Map<Integer, Integer> mp = new HashMap<>();
+        for (int x : b) {
+            if (!mp.containsKey(x)) {
+                mp.put(x, 1);
+            }
+            else mp.put(x, mp.get(x) + 1);
+        }
+        for (int x : a) {
+            if (mp.get(x) > 0) {
+                mp.put(x, mp.get(x) - 1);
+            }
+        }
+        for (Map.Entry<Integer, Integer> entry : mp.entrySet()) {
+            if (entry.getValue() > 0) {
+                System.out.print(entry.getKey() + " ");
+            }
+        }
+    }
+}
