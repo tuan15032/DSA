@@ -1,0 +1,47 @@
+import java.util.Scanner;
+
+public class Solution {
+
+    static int[] quickSort(int[] arr) {
+        int pivot = arr[0];
+        int n = arr.length;
+        int[] result = new int[n];
+
+        int leftIndex = 0;
+        int rightIndex = n - 1;
+        int equalIndex = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] < pivot) {
+                result[leftIndex++] = arr[i];
+            } else if (arr[i] > pivot) {
+                result[rightIndex--] = arr[i];
+            } else {
+                equalIndex++;
+            }
+        }
+
+        for (int i = 0; i < equalIndex; i++) {
+            result[leftIndex++] = pivot;
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        int[] result = quickSort(arr);
+        for (int num : result) {
+            System.out.print(num + " ");
+        }
+
+        System.out.println(); 
+        sc.close();
+    }
+}

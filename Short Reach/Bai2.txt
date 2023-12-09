@@ -1,0 +1,84 @@
+class Result {
+
+    static class Edge {
+        int start, end, cost;
+        public Edge (int start, int end, int cost) {
+            this.start = start;
+            this.end = end;
+            this.cost = cost;
+        }
+        
+        public int hashCode() {
+            return Objects.hash(Math.max(start, end),
+                    Math.min(start, end));
+        }
+        
+        public boolean equals(Edge object) {
+            if (!(object instanceof Edge)) return false;
+            Edge other = (Edge) object;
+            return (this.start == other.start && this.end == other.end)
+                    || (this.start == other.end && this.end == other.start);
+        }
+    }
+    
+    
+    private boolean dfs(Map<Integer, List<Edge>> mst,
+            int preNode,
+            int currNode,
+            Set<Integer> visitedNodes) {
+        if (visitedNodes.contains(currNode)) return true;
+        
+        visitedNodes.add(currNode);
+        boolean isLoop = false;
+        for (Edge edge : mst.get(currNode)) {
+            if (edge.end == preNode) continue;
+            isLoop = isLoop || dfs(mst, currNode, edge.end, visitedNodes);
+        }
+        return isLoop;
+    }
+    
+    
+    private boolean formsLoop(Map<Integer, List<Edge>> mst) {
+        Set<Integer> visitedNodes = new HashSet<>();
+        boolean isLoop = false;
+        System.out.println(mst);
+        for (Integer node : mst.keySet()) {
+            if (visitedNodes.contains(node)) continue;
+            isLoop = isLoop || dfs(mst, -1, node, visitedNodes);
+        }
+        return isLoop;
+    }
+    
+    
+    public int prims(int n, List<List<Integer>> edges, int start) {
+        Queue<Edge> sortedEdges 
+                = new PriorityQueue<>(Comparator.comparingInt(e -> e.cost));
+
+        for (List<Integer> edge : edges)
+            sortedEdges.add(new Edge(edge.get(0), edge.get(1), edge.get(2)));
+        
+        Map<Integer, List<Edge>> mst = new HashMap<>();
+        int addedEdges = 0;
+        int minCostTree = 0;
+        
+        while (addedEdges + 1 < n) {
+            Edge minEdge = sortedEdges.poll();
+            Edge minEdgeRev = new Edge(minEdge.end, minEdge.start, minEdge.cost);
+            mst.putIfAbsent(minEdge.start, new ArrayList<>());
+            mst.putIfAbsent(minEdge.end, new ArrayList<>());
+            
+            mst.get(minEdge.start).add(minEdge);
+            mst.get(minEdge.end).add(minEdgeRev);
+            
+            if (formsLoop(mst)) {
+                mst.get(minEdge.start).remove(minEdge);
+                mst.get(minEdge.end).remove(minEdgeRev);
+            } else {
+                addedEdges += 1;
+                minCostTree += minEdge.cost;
+            }
+        }
+        return minCostTree;
+    }
+
+}

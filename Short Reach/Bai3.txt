@@ -1,0 +1,121 @@
+import java.util.*;
+
+public class Solution{
+
+  static class data{
+    int node,weight;
+    data(int node, int weight)
+    {
+      this.node=node; this.weight=weight;
+    }
+  }
+  
+ static int getminNode(int weights[],int visited[],int size)
+  {
+    int index=-1; int min=Integer.MAX_VALUE;
+    for(int i=0;i<size;++i)
+    {
+      if(visited[i]!=1 && weights[i]<min)
+      {
+        index=i;
+        min=weights[i];
+      }
+    }
+    return index;
+  }
+  
+  static void explore(int vertex, ArrayList<ArrayList<data>> list, int weights[], int visited[] )
+  {
+    visited[vertex]=1;
+    int lsize=list.get(vertex).size();
+    for(int i=0;i<lsize;++i)
+    {
+      data child=list.get(vertex).get(i);
+      if(visited[child.node]!=1 && (weights[vertex]+child.weight) < weights[child.node])
+      {
+          weights[child.node]=weights[vertex]+child.weight;
+      }
+    
+    }
+  }
+  
+  static void solve( ArrayList<ArrayList<data>> list,int size, int start)
+  {
+    int visited[]=new int[size];
+    int weights[]=new int[size];
+    Arrays.fill(weights,Integer.MAX_VALUE);
+    weights[start]=0;  
+   
+    for(int i=0;i<size;++i)
+    {
+      int min_node=getminNode(weights,visited,size);
+      if(min_node==-1) {continue;}
+      explore(min_node,list,weights,visited);
+    }
+    
+    for( int i=0;i<size;i++)
+    {
+       int A=0;
+       if(i==start) { continue; }
+       if(weights[i]==Integer.MAX_VALUE)
+       {
+          A=-1;
+       } 
+       else
+       {
+         A=weights[i];
+         
+       }  
+        System.out.print(A+" ");
+    }
+    System.out.println();
+  }
+  
+  public static void main(String args[])
+  {
+    Scanner sc=new Scanner(System.in);
+    int t=sc.nextInt();
+    while(t-->0)
+    {
+      int size=sc.nextInt(); int edges=sc.nextInt();
+      int matrix[][]=new int[size][size];
+      for(int arr[] : matrix)
+          Arrays.fill(arr,-1);
+          
+      ArrayList<ArrayList<data>> list=new ArrayList<>();
+      for(int i=0;i<size;++i)
+      {
+        list.add(new ArrayList<data>());
+      }
+      
+      for(int i=0;i<edges;++i)
+      {
+         int p1=sc.nextInt()-1; int p2=sc.nextInt()-1; int w=sc.nextInt();
+         if(matrix[p1][p2]==-1){
+          matrix[p1][p2]=w;
+          matrix[p2][p1]=w;
+         }
+         else
+         {
+           matrix[p1][p2]=Math.min(matrix[p1][p2],w);
+           matrix[p2][p1]=Math.min(matrix[p2][p1],w);
+         }
+      
+      }
+      
+      for(int i=0;i<size;++i)
+      {
+        for(int j=0;j<size;++j)
+        {
+          if(matrix[i][j]!=-1){
+          list.get(i).add(new data(j,matrix[i][j]));
+          }
+        }
+      }
+      
+      int start=sc.nextInt()-1;
+      solve(list,size,start);
+    }
+  }
+
+}
